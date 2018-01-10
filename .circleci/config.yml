@@ -39,8 +39,23 @@ jobs:
           key: v1-back-modules-{{ checksum "backend/yarn.lock" }}
 
       # run tests!
-      - run: cd frontend && yarn test
-
+      - run: cd frontend && yarn unit
       - run: cd frontend && yarn build
+      - setup_remote_docker
+      - run:
+          name: Build frontend image
+          command: |
+            TAG=latest
+            docker build -f ./docker/frontend/Dockerfile -t registry.campusonfire.com/test-app-frontend:$TAG
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push registry.campusonfire.com/test-app-frontend:$TAG
+
+      - run:
+          name: Build backend image
+          command: |
+            TAG=latest
+            docker build -f ./docker/backend/Dockerfile -t registry.campusonfire.com/test-app-backend:$TAG
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push registry.campusonfire.com/test-app-backend:$TAG
 
 

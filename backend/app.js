@@ -7,4 +7,4 @@ app.use(ctx => {
     ctx.body = 'Hello Koa';
 });
 
-app.listen(config.port);
+app.listen(process.env.APP_PORT || config.port);
