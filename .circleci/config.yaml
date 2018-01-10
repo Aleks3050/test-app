@@ -1,0 +1,46 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-front-modules-{{ checksum "frontend/yarn.lock" }}
+          - v1-front-modules-
+      - restore_cache:
+          keys:
+          - v1-back-modules-{{ checksum "backend/yarn.lock" }}
+          - v1-back-modules-
+      - run: cd ./frontend && yarn install
+      - run: cd ./backend && yarn install
+
+      - save_cache:
+          paths:
+            - frontend/node_modules
+          key: v1-front-modules-{{ checksum "frontend/yarn.lock" }}
+      - save_cache:
+          paths:
+            - backend/node_modules
+          key: v1-back-modules-{{ checksum "backend/yarn.lock" }}
+
+      # run tests!
+      - run: cd frontend && yarn test
+
+      - run: cd frontend && yarn build
+
+
