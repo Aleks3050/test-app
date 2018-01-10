@@ -24,3 +24,6 @@ services:
       - "443"
     depends_on:
       - backend
+networks:
+  staging:
+    external: true
