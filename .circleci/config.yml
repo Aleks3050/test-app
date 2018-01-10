@@ -46,16 +46,16 @@ jobs:
           name: Build frontend image
           command: |
             TAG=latest
-            docker build -f ./docker/frontend/Dockerfile -t registry.campusonfire.com/test-app-frontend:$TAG .
             docker login -u $DOCKER_USER -p $DOCKER_PASS registry.campusonfire.com
+            docker build -f ./docker/frontend/Dockerfile -t registry.campusonfire.com/test-app-frontend:$TAG .
             docker push registry.campusonfire.com/test-app-frontend:$TAG
 
       - run:
           name: Build backend image
           command: |
             TAG=latest
-            docker build -f ./docker/backend/Dockerfile -t registry.campusonfire.com/test-app-backend:$TAG .
             docker login -u $DOCKER_USER -p $DOCKER_PASS registry.campusonfire.com
+            docker build -f ./docker/backend/Dockerfile -t registry.campusonfire.com/test-app-backend:$TAG .
             docker push registry.campusonfire.com/test-app-backend:$TAG
 
 
