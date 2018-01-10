@@ -1,4 +1,4 @@
-FROM kkarczmarczyk/node-yarn:8
+FROM kkarczmarczyk/node-yarn:8.0
 ADD ./backend /usr/src/app
 WORKDIR /usr/src/app
 RUN yarn install
