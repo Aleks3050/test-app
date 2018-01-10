@@ -63,13 +63,11 @@ jobs:
     docker:
       - image: circleci/node:8
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "de:4f:0c:87:11:b0:d4:e2:67:3c:53:43:74:d2:65:f2"
       - checkout
       - run:
           name: Deploy
           command: |
+            ssh-keyscan -H $APP_HOST >> ~/.ssh/known_hosts
             scp ./docker/docker-compose.yml root@$APP_HOST:/tmp/testapp-compose.yml
             ssh root@$APP_HOST "docker-compose -f /tmp/testapp-compose.yml pull backend frontend"
             ssh root@$APP_HOST "docker-compose -f /tmp/testapp-compose.yml up -d"
