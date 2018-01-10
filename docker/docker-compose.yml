@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   backend:
     image: registry.campusonfire.com/test-app-backend:latest
