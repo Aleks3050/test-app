@@ -59,3 +59,23 @@ jobs:
             docker push registry.campusonfire.com/test-app-backend:$TAG
 
 
+  deploy:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          command: |
+            scp ./docker/docker-compose.yml root@$APP_HOST:/tmp/testapp-compose.yml
+            ssh root@$APP_HOST "docker-compose -f /tmp/testapp-compose.yml pull backend frontend"
+            ssh root@$APP_HOST "docker-compose -f /tmp/testapp-compose.yml up -d"
+
+workflows:
+  version: 2
+  delivery:
+    jobs:
+      - build
+      - deploy
+          requires:
+            - build

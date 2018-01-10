@@ -1,0 +1,26 @@
+version: "3"
+services:
+  backend:
+    image: registry.campusonfire.com/test-app-backend:latest
+    command: node ./app.js
+    restart: always
+    networks:
+      - default
+      - staging
+    ports:
+      - "3000"
+  frontend:
+    image: registry.campusonfire.com/test-app-frontend:latest
+    restart: always
+    networks:
+      staging:
+        aliases:
+          - testapp
+      default:
+        aliases:
+          - app
+    ports:
+      - "80"
+      - "443"
+    depends_on:
+      - backend
