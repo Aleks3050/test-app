@@ -76,6 +76,6 @@ workflows:
   delivery:
     jobs:
       - build
-      - deploy
+      - deploy:
           requires:
             - build
