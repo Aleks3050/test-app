@@ -39,7 +39,7 @@ jobs:
             - backend/node_modules
           key: v1-back-modules-{{ checksum "backend/yarn.lock" }}
 
-      # run tests!
+      # yarn install
       - run: cd frontend && yarn unit
       - run: cd frontend && yarn build
       - setup_remote_docker
